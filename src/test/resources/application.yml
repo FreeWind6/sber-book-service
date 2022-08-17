@@ -1,0 +1,98 @@
+# Информация о приложении
+info:
+  name: '@project.name@'
+  description: '@project.description@'
+  version: '@project.version@'
+  artifact-id: '@project.artifactId@'
+
+# Параметры генерации OAS-спецификации сервиса
+springdoc:
+  api-docs:
+    path: /api
+    enabled: true
+  swagger-ui:
+    path: /api/doc
+    layout: BaseLayout
+    display-request-duration: true
+    show-extensions: true
+    show-common-extensions: true
+    enabled: true
+
+# Параметры админских эндпоинтов
+management:
+  endpoints:
+    web:
+      exposure.include:
+        - health
+        - loggers
+        - prometheus
+        - info
+        - mappings
+      base-path: /
+      path-mapping:
+        prometheus: metrics
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+      show-components: always
+      group:
+        liveness.include: [ "*" ]
+        readiness.include: [ "*" ]
+      probes:
+        enabled: true
+    loggers.enabled: true
+    info.enabled: true
+    mappings.enabled: true
+    prometheus.enabled: true
+    metrics.enabled: false
+    beans.enabled: false
+    logfile.enabled: false
+    caches.enabled: false
+    conditions.enabled: false
+    configprops.enabled: false
+    httptrace.enabled: false
+    threaddump.enabled: false
+    heapdump.enabled: false
+    auditevents.enabled: false
+    flyway.enabled: false
+  health:
+    defaults.enabled: false
+    ping.enabled: true
+  metrics:
+    # Метрики на все входящие запросы по времени и количеству
+    # запросов в разрезе эндпоинтов (префикс http.server.requests)
+    web.server.request.autotime:
+      enabled: true
+      percentiles-histogram: true
+    web.client.request.autotime:
+      percentiles-histogram: true
+    tags:
+      app: ${info.name}
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ${info.artifact-id}
+
+  ################### DataSource Configuration ##########################
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+
+  ################### Hibernate Configuration ##########################
+  jpa:
+    hibernate.ddl-auto: create-drop
+    show-sql: true
+    open-in-view: false
+    database-platform: org.hibernate.dialect.H2Dialect
+
+################### logging ##########################
+logging:
+  level:
+    root: info
