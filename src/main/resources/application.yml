@@ -76,7 +76,7 @@ server:
 
 app:
   save:
-    enabled: false
+    enabled: true
 
 spring:
   application:
