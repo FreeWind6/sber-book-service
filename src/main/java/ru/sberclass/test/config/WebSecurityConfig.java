@@ -40,6 +40,7 @@ public class WebSecurityConfig {
                 .antMatchers(BookApi.BASE_PATH + BookApi.BOOKS).permitAll()
                 .antMatchers(BookApi.BASE_PATH + BookApi.BOOKS_BY_LETTER).permitAll()
                 .antMatchers(BookApi.BASE_PATH + BookApi.STATISTIC).permitAll()
+                .antMatchers(BookApi.BASE_PATH + BookApi.SAVE).permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .and().csrf().disable().cors();
 

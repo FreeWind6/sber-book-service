@@ -9,6 +9,7 @@ import ru.sberclass.test.repositories.BookRepository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -60,5 +61,14 @@ public class BooksService {
 
         }
         return bookRepository.startWithGetList(startWith);
+    }
+
+    /**
+     * Сохранить книгу.
+     *
+     * @param book Книга
+     */
+    public UUID save(Book book) {
+        return bookRepository.save(book).getId();
     }
 }

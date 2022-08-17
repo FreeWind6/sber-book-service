@@ -6,11 +6,16 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.sberclass.test.entity.Book;
+import ru.sberclass.test.model.save.Response;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @OpenAPIDefinition(
         info = @Info(
@@ -26,6 +31,7 @@ public interface BookApi {
     String BOOKS = "/books";
     String STATISTIC = "/statistic";
     String BOOKS_BY_LETTER = "/books-by-letter";
+    String SAVE = "/save";
 
     @Operation(
             summary = "Получение всех кних",
@@ -51,4 +57,12 @@ public interface BookApi {
     @GetMapping(BOOKS_BY_LETTER)
     ResponseEntity<List<Book>> getBooksByLetter(@RequestParam("start-with") String startWith,
                                                 @RequestParam("ignore-case") boolean ignoreCase);
+
+    @Operation(
+            summary = "Сохранить книгу",
+            operationId = "save",
+            description = "Сохранить книгу"
+    )
+    @PostMapping(SAVE)
+    ResponseEntity<Response> save(@RequestBody @Valid Book book);
 }
