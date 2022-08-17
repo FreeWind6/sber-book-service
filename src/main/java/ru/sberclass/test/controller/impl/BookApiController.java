@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.sberclass.test.controller.BookApi;
 import ru.sberclass.test.entity.Book;
-import ru.sberclass.test.model.save.Response;
 import ru.sberclass.test.service.BooksService;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -81,22 +79,6 @@ public class BookApiController implements BookApi {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Error in getBooksByLetter: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-    @Override
-    public ResponseEntity<Response> save(Book book) {
-        try {
-            log.info("Request {}, Body: {}", BookApi.SAVE, book);
-            UUID id = booksService.save(book);
-            ResponseEntity<Response> reponse = ResponseEntity.ok(Response.builder()
-                    .uuid(id)
-                    .build());
-            log.info("Response {}, {}", BookApi.SAVE, reponse);
-            return reponse;
-        } catch (Exception e) {
-            log.error("Error in save: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
