@@ -32,18 +32,31 @@ public class BooksService {
     @Transactional(readOnly = true)
     public HashMap<Character, Integer> getStatistic() {
         HashMap<Character, Integer> response = new HashMap<>();
-        for (char ch = 'А'; ch <= 'Я'; ch++) {
-            response.put(ch,
-                    bookRepository.startWithGetCount(String.valueOf(ch).toUpperCase()) +
-                            bookRepository.startWithGetCount(String.valueOf(ch).toLowerCase()));
-        }
+
+        // перебор русского алфавита
+        russianAlphabet(response);
+
+        // перебор английского алфавита
+        alphabet(response, 'A', 'Z');
+
+        return response;
+    }
+
+    private void russianAlphabet(HashMap<Character, Integer> response) {
+        alphabet(response, 'А', 'Я');
 
         // Буквы Ё нет. Добавляем вручную
         response.put("Ё".toCharArray()[0],
                 bookRepository.startWithGetCount("Ё") +
                         bookRepository.startWithGetCount("ё"));
+    }
 
-        return response;
+    private void alphabet(HashMap<Character, Integer> response, char first, char last) {
+        for (char ch = first; ch <= last; ch++) {
+            response.put(ch,
+                    bookRepository.startWithGetCount(String.valueOf(ch).toUpperCase()) +
+                            bookRepository.startWithGetCount(String.valueOf(ch).toLowerCase()));
+        }
     }
 
     /**
