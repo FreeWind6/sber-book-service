@@ -10,6 +10,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Data
 @Configuration
 public class AppConfig {
+    //asdasdasdasd
     @Bean
     public PlatformTransactionManager transactionManager() {
         return new JpaTransactionManager();
